@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("user")
-    .setDescription("ユーザー情報を表示します。")
+    .setDescription("ユーザー情報を表示します。\n`/user user<ユーザー>`")
     .addUserOption((option) =>
       option.setName("user").setDescription("情報を表示するユーザーを指定")
     ),
