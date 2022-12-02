@@ -5,7 +5,7 @@ const {
   Partials,
   Events,
   ActivityType,
-} = require("discord.js"); //discord.js から読み込む
+} = require("discord.js");
 const dotenv = require("dotenv");
 const fs = require("node:fs");
 const path = require("node:path");
