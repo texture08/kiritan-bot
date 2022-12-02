@@ -20,7 +20,6 @@ module.exports = {
 
     for (const file of commandFiles) {
       const command = require(`./${file}`);
-      //str += `Name: ${command.data.name}, Description: ${command.data.description} \n`;
       str = {
         name: command.data.name,
         value: command.data.description,
@@ -28,6 +27,6 @@ module.exports = {
       embed["fields"].push(str);
     }
 
-    return interaction.reply({ embeds: [embed] });
+    await interaction.reply({ embeds: [embed] });
   },
 };
