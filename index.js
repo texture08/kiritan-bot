@@ -1,45 +1,44 @@
 const {
-  Client,
-  Collection,
   GatewayIntentBits,
+  Collection,
   Partials,
+  Client,
   Events,
-  ActivityType,
 } = require("discord.js");
+const path = require("node:path");
 const dotenv = require("dotenv");
 const fs = require("node:fs");
-const path = require("node:path");
 
 dotenv.config();
 
 const client = new Client({
   intents: [
-    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildEmojisAndStickers,
+    GatewayIntentBits.DirectMessageReactions,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildScheduledEvents,
+    GatewayIntentBits.DirectMessageTyping,
+    GatewayIntentBits.GuildMessageTyping,
+    GatewayIntentBits.GuildIntegrations,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildWebhooks,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildInvites,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildBans,
-    GatewayIntentBits.GuildEmojisAndStickers,
-    GatewayIntentBits.GuildIntegrations,
-    GatewayIntentBits.GuildWebhooks,
-    GatewayIntentBits.GuildInvites,
-    GatewayIntentBits.GuildVoiceStates,
-    GatewayIntentBits.GuildPresences,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.GuildMessageReactions,
-    GatewayIntentBits.GuildMessageTyping,
-    GatewayIntentBits.DirectMessages,
-    GatewayIntentBits.DirectMessageReactions,
-    GatewayIntentBits.DirectMessageTyping,
-    GatewayIntentBits.MessageContent,
-    GatewayIntentBits.GuildScheduledEvents,
+    GatewayIntentBits.Guilds,
   ],
   partials: [
-    Partials.User,
-    Partials.Channel,
-    Partials.GuildMember,
-    Partials.Message,
-    Partials.Reaction,
     Partials.GuildScheduledEvent,
     Partials.ThreadMember,
+    Partials.GuildMember,
+    Partials.Reaction,
+    Partials.Channel,
+    Partials.Message,
+    Partials.User,
   ],
 });
 
@@ -61,15 +60,13 @@ for (const file of commandFiles) {
   }
 }
 
-client.once("ready", () => {
+client.once(Events.ClientReady, () => {
   console.log("起動完了");
 });
 
-client.on("ready", () => {
+client.on(Events.ClientReady, () => {
   setInterval(() => {
-    client.user.setActivity(`きりたんぽっぽー: ${client.ws.ping}ms`, {
-      type: ActivityType.Watching,
-    });
+    client.user.setActivity(`きりたんぽっぽー: ${client.ws.ping}ms`);
   }, 5000);
 });
 
