@@ -21,10 +21,17 @@ module.exports = {
     for (const file of commandFiles) {
       const command = require(`./${file}`);
       str = {
-        name: command.data.name,
+        name: `/${command.data.name}`,
         value: command.data.description,
       };
-      embed["fields"].push(str);
+
+      if (
+        command.data.name != "help" &&
+        command.data.name != "rules" &&
+        command.data.name != "test"
+      ) {
+        embed["fields"].push(str);
+      }
     }
 
     await interaction.reply({ embeds: [embed] });
