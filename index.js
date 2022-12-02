@@ -4,6 +4,7 @@ const {
   GatewayIntentBits,
   Partials,
   Events,
+  ActivityType,
 } = require("discord.js"); //discord.js から読み込む
 const dotenv = require("dotenv");
 const fs = require("node:fs");
@@ -51,18 +52,25 @@ const commandFiles = fs
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
   const command = require(filePath);
-  // Set a new item in the Collection with the key as the command name and the value as the exported module
   if ("data" in command && "execute" in command) {
     client.commands.set(command.data.name, command);
   } else {
     console.log(
-      `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
+      `[警告] ${filePath} のコマンドには、必要な「データ」または「実行」プロパティがありません。`
     );
   }
 }
 
 client.once("ready", () => {
   console.log("起動完了");
+});
+
+client.on("ready", () => {
+  setInterval(() => {
+    client.user.setActivity(`きりたんぽっぽー: ${client.ws.ping}ms`, {
+      type: ActivityType.Watching,
+    });
+  }, 5000);
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
@@ -77,7 +85,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   } catch (error) {
     console.error(error);
     await interaction.reply({
-      content: "There was an error while executing this command!",
+      content: "コマンドの実行中にエラーが発生しました",
       ephemeral: true,
     });
   }
