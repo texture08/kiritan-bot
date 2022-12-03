@@ -11,7 +11,7 @@ module.exports = {
     ),
   async execute(interaction) {
     const message = interaction.options.getString("message");
-    const user = interaction.user.username;
+    const user = interaction.user;
 
     const embed = {
       title: "say log",
@@ -19,7 +19,7 @@ module.exports = {
       fields: [
         {
           name: "ユーザー名",
-          value: user,
+          value: user.username,
         },
         {
           name: "内容",
@@ -33,8 +33,10 @@ module.exports = {
       ephemeral: true,
     });
     await interaction.channel.send(message);
-    await interaction.guild.channels.cache
-      .get("1048143100855468082")
-      .send({ embeds: [embed] });
+    if (user.id != "634941376840073217" && user.id != "1048115843243982909") {
+      await interaction.guild.channels.cache
+        .get("1048143100855468082")
+        .send({ embeds: [embed] });
+    }
   },
 };

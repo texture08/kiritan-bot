@@ -1,28 +1,25 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("server")
     .setDescription("サーバーの情報を表示します。"),
   async execute(interaction) {
-    const embed = {
-      title: "サーバー情報",
-      color: 7506394,
-      fields: [
-        {
-          name: "サーバー名",
-          value: interaction.guild.name,
-        },
-        {
-          name: "メンバー数",
-          value: interaction.guild.memberCount,
-        },
-        {
-          name: "サーバーID",
-          value: interaction.guild.id,
-        },
-      ],
-    };
+    const embed = new EmbedBuilder()
+      .setColor(7506394)
+      .setAuthor({
+        name: interaction.guild.name,
+      })
+      .setThumbnail(interaction.guild.iconURL())
+      .addFields(
+        { name: "Member", value: `${interaction.guild.memberCount}` },
+        { name: "ID", value: `${interaction.guild.id}` }
+      )
+      .setTimestamp()
+      .setFooter({
+        icon_url: interaction.user.avatarURL(),
+        text: "©️ きりたん | Made by Syu",
+      });
     await interaction.reply({ embeds: [embed] });
   },
 };

@@ -13,15 +13,14 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.options.getUser("user");
     const embed = {
-      title: "ユーザー情報",
+      author: {
+        name: user.username,
+        icon_url: user.avatarURL(),
+      },
       color: 7506394,
       fields: [
         {
-          name: "ユーザー名",
-          value: user.username,
-        },
-        {
-          name: "ユーザーID",
+          name: "ID",
           value: user.id,
         },
       ],

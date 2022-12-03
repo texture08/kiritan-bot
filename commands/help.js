@@ -9,8 +9,17 @@ module.exports = {
     let str;
 
     let embed = {
+      author: {
+        name: "きりたん",
+        icon_url: interaction.user.avatarURL(),
+      },
       title: "コマンドのヘルプです",
       color: 7506394,
+      timestamp: new Date(),
+      footer: {
+        icon_url: interaction.user.avatarURL(),
+        text: "©️ きりたん | Made by Syu",
+      },
       fields: [],
     };
 
