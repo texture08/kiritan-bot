@@ -20,10 +20,6 @@ module.exports = {
         icon_url: interaction.user.avatarURL(),
         text: "©️ きりたん | Made By Syu",
       });
-    //await interaction.reply(`${interaction.guild.iconURL((option = "PNG"))}`);
-    // await interaction.guild.channels.cache
-    //   .get("1048143100855468082")
-    //   .send("test");
     await interaction.reply({ embeds: [exampleEmbed] });
   },
 };
