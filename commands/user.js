@@ -12,9 +12,13 @@ module.exports = {
     ),
   async execute(interaction) {
     const user = interaction.options.getUser("user");
+    let username = `${user.username}#${user.discriminator}`;
+    if (user.bot == true) {
+      username += ` BOT`;
+    }
     const embed = {
       author: {
-        name: user.username,
+        name: username,
         icon_url: user.avatarURL(),
       },
       color: 7506394,
@@ -25,6 +29,9 @@ module.exports = {
         },
       ],
     };
-    await interaction.reply({ embeds: [embed], ephemeral: true });
+    await interaction.reply({
+      embeds: [embed],
+      ephemeral: true,
+    });
   },
 };

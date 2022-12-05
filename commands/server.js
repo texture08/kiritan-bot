@@ -12,7 +12,20 @@ module.exports = {
       })
       .setThumbnail(interaction.guild.iconURL())
       .addFields(
-        { name: "Member", value: `${interaction.guild.memberCount}` },
+        {
+          name: "Members",
+          value: `${
+            interaction.guild.members.cache.filter((m) => !m.user.bot).size
+          }`,
+          inline: true,
+        },
+        {
+          name: "BOT",
+          value: `${
+            interaction.guild.members.cache.filter((m) => m.user.bot).size
+          }`,
+          inline: true,
+        },
         { name: "ID", value: `${interaction.guild.id}` }
       )
       .setTimestamp()
