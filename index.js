@@ -115,6 +115,11 @@ client.on(Events.MessageDelete, async (message) => {
       .send({ embeds: [embed] });
   } catch (error) {
     console.log(`エラーが発生しました\n${error}`);
+    message.guild.channels.cache
+      .get(process.env.systemch)
+      .send(
+        `監視ログエラー。削除されメッセージが取得できませんでした\n${error}`
+      );
   }
 });
 
