@@ -74,44 +74,48 @@ client.on(Events.ClientReady, () => {
 
 client.on(Events.MessageDelete, async (message) => {
   if (!message.guild) return;
-  const fetchedLogs = await message.guild.fetchAuditLogs({
-    limit: 1,
-    type: AuditLogEvent.MessageDelete,
-  });
-
-  const deletionLog = fetchedLogs.entries.first();
-
-  if (!deletionLog)
-    return console.log(
-      `${message.author.tag} によるメッセージは削除されましたが、関連する監査ログは見つかりませんでした。`
-    );
-
-  const { executor, target } = deletionLog;
-
-  let embed = new EmbedBuilder().setColor(7506394).setAuthor({
-    name: message.author.tag,
-    iconURL: message.author.avatarURL(),
-  });
-
-  if (target.id === message.author.id) {
-    console.log(
-      `A message by ${message.author.tag} was deleted by ${executor.tag}.`
-    );
-    embed.setFooter({
-      text: `${executor.tag}によって削除されました。`,
-      iconURL: executor.avatarURL(),
+  try {
+    const fetchedLogs = await message.guild.fetchAuditLogs({
+      limit: 1,
+      type: AuditLogEvent.MessageDelete,
     });
-  } else {
-    console.log(
-      `A message by ${message.author.tag} was deleted, but we don't know by who.`
-    );
-    embed.setFooter({
-      text: `自分で削除された又は、削除した人が不明です`,
+
+    const deletionLog = fetchedLogs.entries.first();
+
+    if (!deletionLog)
+      return console.log(
+        `${message.author.tag} によるメッセージは削除されましたが、関連する監査ログは見つかりませんでした。`
+      );
+
+    const { executor, target } = deletionLog;
+
+    let embed = new EmbedBuilder().setColor(7506394).setAuthor({
+      name: message.author.tag,
+      iconURL: message.author.avatarURL(),
     });
+
+    if (target.id === message.author.id) {
+      console.log(
+        `A message by ${message.author.tag} was deleted by ${executor.tag}.`
+      );
+      embed.setFooter({
+        text: `${executor.tag}によって削除されました。`,
+        iconURL: executor.avatarURL(),
+      });
+    } else {
+      console.log(
+        `A message by ${message.author.tag} was deleted, but we don't know by who.`
+      );
+      embed.setFooter({
+        text: `自分で削除された又は、削除した人が不明です`,
+      });
+    }
+    message.guild.channels.cache
+      .get(process.env.systemch)
+      .send({ embeds: [embed] });
+  } catch (error) {
+    console.log(`エラーが発生しました\n${error}`);
   }
-  message.guild.channels.cache
-    .get(process.env.systemch)
-    .send({ embeds: [embed] });
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
