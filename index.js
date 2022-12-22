@@ -89,37 +89,39 @@ client.on(Events.MessageDelete, async (message) => {
 
     const { executor, target } = deletionLog;
 
-    let embed = new EmbedBuilder().setColor(7506394).setAuthor({
-      name: message.author.tag,
-      iconURL: message.author.avatarURL(),
-    });
+    // let embed = new EmbedBuilder()
+    //   .setColor(7506394)
+    //   .setAuthor({
+    //     name: message.author.tag,
+    //     iconURL: message.author.avatarURL(),
+    //   })
+    //   .addFields({ name: "Message", vaule: message.content });
 
     if (target.id === message.author.id) {
       console.log(
-        `A message by ${message.author.tag} was deleted by ${executor.tag}.`
+        `${message.author.tag} のメッセージが ${executor.tag} によって削除されました。\n${message.content}`
       );
-      embed.setFooter({
-        text: `${executor.tag}によって削除されました。`,
-        iconURL: executor.avatarURL(),
-      });
+      // embed.setFooter({
+      //   text: `${executor.tag}によって削除されました。`,
+      //   iconURL: executor.avatarURL(),
+      // });
     } else {
       console.log(
-        `A message by ${message.author.tag} was deleted, but we don't know by who.`
+        `${message.author.tag} のメッセージが削除されましたが。自分、または削除した人が不明です。\n${message.content}`
       );
-      embed.setFooter({
-        text: `自分で削除された又は、削除した人が不明です`,
-      });
+      // embed.setFooter({
+      //   text: `自分で削除された又は、削除した人が不明です`,
+      // });
     }
-    message.guild.channels.cache
-      .get(process.env.systemch)
-      .send({ embeds: [embed] });
+    //message.guild.channels.cache.get("1048143100855468082").send("test");
+    // message.guild.channels.cache
+    //   .get(process.env.systemch)
+    //   .send({ embeds: [embed] });
   } catch (error) {
     console.log(`エラーが発生しました\n${error}`);
-    message.guild.channels.cache
-      .get(process.env.systemch)
-      .send(
-        `監視ログエラー。削除されメッセージが取得できませんでした\n${error}`
-      );
+    // message.guild.channels.cache
+    //   .get(process.env.systemch)
+    //   .send(`削除されメッセージが取得できませんでした\n${error}`);
   }
 });
 
