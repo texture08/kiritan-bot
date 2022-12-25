@@ -12,6 +12,7 @@ const dotenv = require("dotenv");
 const fs = require("node:fs");
 
 dotenv.config();
+config = process.env;
 
 const client = new Client({
   intents: [
@@ -115,12 +116,12 @@ client.on(Events.MessageDelete, async (message) => {
     }
     //message.guild.channels.cache.get("1048143100855468082").send("test");
     // message.guild.channels.cache
-    //   .get(process.env.systemch)
+    //   .get(config.systemch)
     //   .send({ embeds: [embed] });
   } catch (error) {
     console.log(`エラーが発生しました\n${error}`);
     // message.guild.channels.cache
-    //   .get(process.env.systemch)
+    //   .get(config.systemch)
     //   .send(`削除されメッセージが取得できませんでした\n${error}`);
   }
 });
@@ -143,4 +144,4 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-client.login(process.env.token);
+client.login(config.token);
